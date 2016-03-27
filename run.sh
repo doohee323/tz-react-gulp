@@ -36,5 +36,5 @@ npm run build
 # for prod
 #    "build": "gulp; NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > front-src/build/js/compiled.js; gulp server"
 
-#npm run watch
+npm run start
 
