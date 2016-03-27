@@ -30,11 +30,11 @@ npm run build
 # npm install -g rimraf semver npmlog browserify reactify watchify uglify-js react
 
 # for dev
-#watchify -v -d -t [ reactify --es6 ] main.js -o front-src/build/js/compiled.js
-#watchify -v -d -t [ reactify --es6 ] main.js -o front-src/build/js/compiled.js
-#    "build": "gulp; NODE_ENV=development browserify -t [ reactify --es6 ] main.js > front-src/build/js/compiled.js; gulp server"
+#watchify -v -d -t [ reactify --es6 ] main.js -o src/build/js/compiled.js
+#watchify -v -d -t [ reactify --es6 ] main.js -o src/build/js/compiled.js
+#    "build": "gulp; NODE_ENV=development browserify -t [ reactify --es6 ] main.js > src/build/js/compiled.js; gulp server"
 # for prod
-#    "build": "gulp; NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > front-src/build/js/compiled.js; gulp server"
+#    "build": "gulp; NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > src/build/js/compiled.js; gulp server"
 
 npm run start
 
