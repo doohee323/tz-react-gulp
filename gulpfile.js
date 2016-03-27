@@ -7,14 +7,14 @@ var minifyCss = require('gulp-minify-css');
 var webserver = require('gulp-webserver');
 var open = require('gulp-open');
 
-var devSrc = 'src/dev';
+var devSrc = 'src';
 var devPaths = {
     js: devSrc + '/js/**/*.js',
     css: devSrc + '/css/**/*.css',
     html : devSrc + '/html/**/*.*'
 };
 
-var buildSrc = 'src/build';
+var buildSrc = 'build';
 
 gulp.task('combine-js', function () {
     return gulp.src(devPaths.js)
