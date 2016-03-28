@@ -26,6 +26,7 @@ npm install --save-dev gulp-clean
 
 # run all task
 npm run build
+npm run start
 
 # npm install -g rimraf semver npmlog browserify reactify watchify uglify-js react
 
@@ -36,5 +37,5 @@ npm run build
 # for prod
 #    "build": "gulp; NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > build/js/compiled.js; gulp server"
 
-npm run start
+
 

@@ -68,5 +68,5 @@ gulp.task('compile2', ['combine-js', 'compile-sass', 'html-move'], function(){
 });
 
 gulp.task('default', ['clean'], function(){
-    gulp.start('compile2');
+    gulp.start('compile');
 });

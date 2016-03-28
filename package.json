@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify -v -d -t [ reactify --es6 ] main.js -o compiled.js",
-    "build": "gulp & NODE_ENV=development browserify -t [ babelify --presets [ react ] ] main.js > build/js/compiled.js",
-    "start": "gulp server"
+    "build": "NODE_ENV=development browserify -t [ reactify --es6 ] main.js > src/js/compiled.js",
+    "start": "gulp"
   },
   "author": "Tutorialzine",
   "license": "MIT",
