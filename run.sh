@@ -8,8 +8,8 @@ npm install gulp -g
 # install gulp for project
 npm install gulp --save-dev
 
-# for uglify, concat
-npm install --save-dev gulp-uglify gulp-concat  
+# for concat
+npm install --save-dev gulp-concat  
 
 # for sass, minify-css
 npm install gulp-sass --save-dev
@@ -24,18 +24,10 @@ npm install --save-dev gulp-open
 # for cleaning 
 npm install --save-dev gulp-clean
 
+npm install --save-dev babelify reactify browserify vinyl-source-stream gulp-util
+
 # run all task
-npm run build
-npm run start
-
-# npm install -g rimraf semver npmlog browserify reactify watchify uglify-js react
-
-# for dev
-#watchify -v -d -t [ babelify --es6 ] main.js -o build/js/compiled.js
-#watchify -v -d -t [ reactify --es6 ] main.js -o build/js/compiled.js
-#    "build": "gulp; NODE_ENV=development browserify -t [ reactify --es6 ] main.js > build/js/compiled.js; gulp server"
-# for prod
-#    "build": "gulp; NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > build/js/compiled.js; gulp server"
-
+npm run build	# gulp
+npm run start	# gulp start
 
 
