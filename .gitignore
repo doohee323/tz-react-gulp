@@ -1,4 +1,4 @@
 /node_modules
 /build/
 *.log
-/src/js/compiled.js
+compiled.js
