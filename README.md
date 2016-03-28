@@ -1,4 +1,4 @@
-# It has 2 branches (react-gulp2 / react-gulp) 
+# install gulp, react and run tasks
 
 - react-gulp2 (master):
 	install gulp, react and run tasks
@@ -8,8 +8,4 @@
 	
 	http://localhost:8000/html/index.html
 	 
-- react-gulp: 
-	for es6 way with babelify and browserify
-
-	http://localhost:8000/index.html
 	
