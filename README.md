@@ -1,4 +1,4 @@
-# install gulp, react and run tasks
+# This branch is for react with es6 way with babelify and browserify
 
 bash run.sh
 
