@@ -2,6 +2,7 @@
 
 - react compile with gulp
 - livereload and minify
+- use bower resource
 - es6 way with babelify and browserify
 
 npm install
