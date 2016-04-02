@@ -1,6 +1,8 @@
-# react-gulp for d3 on bootstrap and jquery
+# d3.js app with react, bootstrap and jquery on gulp-bower 
 
-for es6 way with babelify and browserify
+- react compile with gulp
+- livereload and minify
+- es6 way with babelify and browserify
 
 npm install
 bower install

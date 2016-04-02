@@ -3,3 +3,4 @@
 *.log
 compiled.js
 /web/
+/bower_components/
