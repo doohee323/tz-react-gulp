@@ -1,4 +1,5 @@
 import React from 'react';
+import Utils from './utils';
 
 class Chart extends React.Component {
     constructor(props){
@@ -13,70 +14,117 @@ class Chart extends React.Component {
       }); 
     }
 
-    drawChart() {
+    createChart() {
       if(!this.props.data || this.props.data.length < 1) {
         return;
       }
+      var ghcid = this.props.ghcid;
       
-      var margin = this.props.config.margin;
-      var width = this.props.config.width;
-      var height = this.props.config.height;
+      var _super = this;
+
+      if (ghcid) {
+        _super.ghcid = ghcid;
+        _super.ajaxMessage('clear', null);
+      } else {
+        var ghcid = _super.ghcid;
+        if (!ghcid) {
+          console.log('ghcid null!');
+        }
+      }
+
+      console.time("query response time");
+      $("#nodata").hide();
+      $("#loading_data").show();
+      $("#frame").hide();
+      $("#result").hide();
+
+      var gmetric = $("#gmetrices").val();
+      var locs = $("#locs").val();
+
+      var from = $("#from").val();
+      var until = $("#until").val();
+
+      if (!ghcid) {
+        console.log('ghcid null!');
+        var ghcid = '';
+      }
+      // make request url
+      var req_url = '/statsdata/health_uptime?hc_id=' + ghcid;
+      if (gmetric) {
+        req_url += '&metric=' + gmetric;
+      }
+      if (locs) {
+        req_url += '&loc=' + locs;
+      }
+      if (from) {
+        req_url += '&from=' + from;
+      } else {
+        req_url += '&from=' + $("#from").val();
+      }
+      if (until) {
+        req_url += '&until=' + until;
+      } else {
+        req_url += '&until=' + $("#until").val();
+      }
+      $.get(
+          req_url,
+          function(rawJsonData) {
+            if (rawJsonData.indexOf('>{') > -1) {
+              rawJsonData = rawJsonData.substring(rawJsonData.indexOf('>{') + 1,
+                  rawJsonData.length);
+            }
+            var json = jQuery.parseJSON(rawJsonData);
+            $("#csv_export")[0].target = req_url;
+            if (json.data.metric.length == 0) {
+              _super.showChart(false);
+              $('.tot_ms_view').css({
+                'height' : '100px'
+              });
+              console.timeEnd("query response time");
+              return;
+            }
+            $('.tot_ms_view').css({
+              'height' : '450px'
+            });
+            _super.selectView(null, json);
+            _super.showChart(true);
+            console.timeEnd("query response time");
+          }).error(
+          function(XMLHttpRequest, textStatus, errorThrown) {
+            try {
+              var tmp = $P.json_decode(XMLHttpRequest.responseText);
+              var msg = (tmp && $P.property_exists(tmp, 'message')) ? tmp.message
+                  : XMLHttpRequest.responseText;
+              _super.ajaxMessage('error', 'Unable to load data: ' + msg);
+              _super.showChart(false);
+            } catch (e) {
+              _super.ajaxMessage('error', 'Unable to load data from server!');
+              from = from.substring(1, from.length) + '.json';
+              d3.json(from, function(error, json) {
+                // d3.json('data.json', function(error, json) {
+                if (!json) {
+                  d3.json('data.json', function(error, json) {
+                    _super.selectView(null, json);
+                    _super.showChart(true);
+                    console.timeEnd("query response time");
+                  });
+                } else {
+                  setTimeout(function() {
+                    _super.selectView(null, json);
+                    _super.showChart(true);
+                  }, 1000);
+                }
+              });
+            }
+          });
       
-      var data = this.props.data;
-      var parseDate = d3.time.format("%d-%b-%y").parse;
-
-      // Set the ranges
-      var x = d3.time.scale().range([ 0, width ]);
-      var y = d3.scale.linear().range([ height, 0 ]);
-
-      // Define the axes
-      var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5);
-
-      var yAxis = d3.svg.axis().scale(y).orient("left").ticks(5);
-
-      // Define the line
-      var valueline = d3.svg.line().x(function(d) {
-        return x(d.date);
-      }).y(function(d) {
-        return y(d.close);
-      });
-
-      // Adds the svg canvas
-      var svg = d3.select("body").append("svg").attr("width",
-          width + margin.left + margin.right).attr("height",
-          height + margin.top + margin.bottom).append("g").attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
-      // Get the data
-      data.forEach(function(d) {
-        d.date = parseDate(d.date);
-        d.close = +d.close;
-      });
-
-      // Scale the range of the data
-      x.domain(d3.extent(data, function(d) {
-        return d.date;
-      }));
-      y.domain([ 0, d3.max(data, function(d) {
-        return d.close;
-      }) ]);
-
-      // Add the valueline path.
-      svg.append("path").attr("class", "line").attr("d", valueline(data));
-
-      // Add the X Axis
-      svg.append("g").attr("class", "x axis").attr("transform",
-          "translate(0," + height + ")").call(xAxis);
-
-      // Add the Y Axis
-      svg.append("g").attr("class", "y axis").call(yAxis);
     }
     
     render(){
-        this.drawChart();
+        this.createChart();
         return (
             <div>
-                <h1>Title: { this.props.title }</h1>
+                <h1>Health Check Id: { this.props.ghcid }</h1>
                 <button onClick={this._update}>Update</button>
             </div>
         );
@@ -84,7 +132,7 @@ class Chart extends React.Component {
 }
 
 Chart.propTypes = {
-    title: React.PropTypes.string,
+    ghcid: React.PropTypes.number,
     data: React.PropTypes.array
 };
 
